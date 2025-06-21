@@ -329,7 +329,7 @@ Impact Analysis:
         output = []
         
         # Header
-        output.append("Terraform Plan Summary")
+        output.append("What's Changing in Your Infrastructure")
         output.append("=" * 50)
         output.append("")
         
@@ -361,46 +361,46 @@ Impact Analysis:
         no_changes = summary.resources_no_change
         
         if total == 0:
-            return "No changes are planned. Your infrastructure is already in the desired state."
+            return "🎉 Great news! Everything looks good - no changes are needed. Your infrastructure is already exactly how it should be."
         
         narrative = []
         
         if creates > 0:
             if creates == 1:
-                narrative.append("1 new resource will be created")
+                narrative.append("🎯 Terraform will be adding 1 new resource")
             else:
-                narrative.append(f"{creates} new resources will be created")
+                narrative.append(f"🎯 Terraform will be adding {creates} new resources")
         
         if updates > 0:
             if updates == 1:
-                narrative.append("1 existing resource will be modified")
+                narrative.append("🔧 Terraform will be modifying 1 existing resource")
             else:
-                narrative.append(f"{updates} existing resources will be modified")
+                narrative.append(f"🔧 Terraform will be modifying {updates} existing resources")
         
         if deletes > 0:
             if deletes == 1:
-                narrative.append("1 resource will be destroyed")
+                narrative.append("🔥 Terraform will be removing 1 resource")
             else:
-                narrative.append(f"{deletes} resources will be destroyed")
+                narrative.append(f"🔥 Terraform will be removing {deletes} resources")
         
         if no_changes > 0:
             if no_changes == 1:
-                narrative.append("1 resource will remain unchanged")
+                narrative.append("✅ 1 resource will stay exactly the same")
             else:
-                narrative.append(f"{no_changes} resources will remain unchanged")
+                narrative.append(f"✅ {no_changes} resources will stay exactly the same")
         
         # Join with appropriate conjunctions
         if len(narrative) == 1:
-            return f"In total, {narrative[0]}."
+            return f"Here's what's happening: {narrative[0]}."
         elif len(narrative) == 2:
-            return f"In total, {narrative[0]} and {narrative[1]}."
+            return f"Here's what's happening: {narrative[0]} and {narrative[1]}."
         else:
             last_item = narrative.pop()
-            return f"In total, {', '.join(narrative)}, and {last_item}."
+            return f"Here's what's happening: {', '.join(narrative)}, and {last_item}."
     
     def _generate_resource_breakdown_narrative(self, summary: PlanSummary) -> str:
         """Generate natural language breakdown of resources by type."""
-        output = ["Resource Changes by Type:"]
+        output = ["📊 Here's the breakdown by type:"]
         
         for resource_type, counts in summary.resource_breakdown.items():
             total = counts['total']
@@ -408,34 +408,34 @@ Impact Analysis:
             
             if counts['create'] > 0:
                 if counts['create'] == 1:
-                    actions.append("1 creation")
+                    actions.append("🎯 adding 1")
                 else:
-                    actions.append(f"{counts['create']} creations")
+                    actions.append(f"🎯 adding {counts['create']}")
             
             if counts['update'] > 0:
                 if counts['update'] == 1:
-                    actions.append("1 update")
+                    actions.append("🔧 updating 1")
                 else:
-                    actions.append(f"{counts['update']} updates")
+                    actions.append(f"🔧 updating {counts['update']}")
             
             if counts['delete'] > 0:
                 if counts['delete'] == 1:
-                    actions.append("1 deletion")
+                    actions.append("🔥 removing 1")
                 else:
-                    actions.append(f"{counts['delete']} deletions")
+                    actions.append(f"🔥 removing {counts['delete']}")
             
             if counts['no-op'] > 0:
                 if counts['no-op'] == 1:
-                    actions.append("1 no-change")
+                    actions.append("✅ leaving 1 unchanged")
                 else:
-                    actions.append(f"{counts['no-op']} no-changes")
+                    actions.append(f"✅ leaving {counts['no-op']} unchanged")
             
             action_str = ", ".join(actions) if actions else "no changes"
             
             if total == 1:
-                output.append(f"  • {resource_type}: 1 resource ({action_str})")
+                output.append(f"  • {resource_type}: 1 total ({action_str})")
             else:
-                output.append(f"  • {resource_type}: {total} resources ({action_str})")
+                output.append(f"  • {resource_type}: {total} total ({action_str})")
         
         return "\n".join(output)
     
@@ -445,41 +445,42 @@ Impact Analysis:
         medium = summary.impact_analysis['medium']
         low = summary.impact_analysis['low']
         
-        output = ["Impact Assessment:"]
+        output = ["🎯 What this means for you:"]
         
         if high > 0:
             if high == 1:
-                output.append("  • High Impact: 1 resource will be destroyed or replaced")
+                output.append("  • ⚠️ 1 resource will be completely replaced (this might cause a brief interruption)")
             else:
-                output.append(f"  • High Impact: {high} resources will be destroyed or replaced")
+                output.append(f"  • ⚠️ {high} resources will be completely replaced (this might cause brief interruptions)")
         
         if medium > 0:
             if medium == 1:
-                output.append("  • Medium Impact: 1 resource will be modified")
+                output.append("  • 🔄 1 resource will be modified (should be quick and smooth)")
             else:
-                output.append(f"  • Medium Impact: {medium} resources will be modified")
+                output.append(f"  • 🔄 {medium} resources will be modified (should be quick and smooth)")
         
         if low > 0:
             if low == 1:
-                output.append("  • Low Impact: 1 new resource will be created")
+                output.append("  • ✨ 1 new resource will be added (no impact on existing infrastructure)")
             else:
-                output.append(f"  • Low Impact: {low} new resources will be created")
+                output.append(f"  • ✨ {low} new resources will be added (no impact on existing infrastructure)")
         
-        # Add recommendations
+        # Add friendly recommendations
         if high > 0:
             output.append("")
-            output.append("⚠️  Recommendations:")
+            output.append("💡 Quick heads up:")
             if high == 1:
-                output.append("  • Review the resource that will be destroyed to ensure no data loss")
+                output.append("  • The resource being replaced might be briefly unavailable")
+                output.append("  • If it has important data, you might want to back it up first")
             else:
-                output.append(f"  • Review the {high} resources that will be destroyed to ensure no data loss")
-            output.append("  • Consider backing up any important data before applying")
+                output.append(f"  • The {high} resources being replaced might be briefly unavailable")
+                output.append("  • If any have important data, you might want to back them up first")
         
         return "\n".join(output)
     
     def _generate_detailed_changes_narrative(self, summary: PlanSummary) -> str:
         """Generate detailed natural language descriptions of each change."""
-        output = ["Detailed Changes:"]
+        output = ["📝 Here's exactly what's changing:"]
         output.append("=" * 30)
         output.append("")
         
@@ -500,29 +501,140 @@ Impact Analysis:
                 continue
             
             if action == ChangeAction.CREATE:
-                output.append("Resources to be Created:")
+                output.append("🎯 Resources Terraform will be adding:")
                 for change in changes:
-                    output.append(f"  • {change.address} ({change.resource_type})")
-                    output.append(f"    This will create a new {change.resource_type} resource.")
+                    output.append(f"  • {change.address}")
+                    output.append(f"    This is a new {change.resource_type} - nothing to worry about!")
+                    if change.changes:
+                        output.append(f"    Configuration: {self._summarize_changes(change.changes)}")
             
             elif action == ChangeAction.UPDATE:
-                output.append("Resources to be Modified:")
+                output.append("🔧 Resources Terraform will be modifying:")
                 for change in changes:
-                    output.append(f"  • {change.address} ({change.resource_type})")
-                    output.append(f"    This will update the existing {change.resource_type} resource.")
+                    output.append(f"  • {change.address}")
+                    output.append(f"    This {change.resource_type} will get some improvements.")
+                    if change.before and change.after:
+                        changes_summary = self._explain_changes(change.before, change.after)
+                        if changes_summary:
+                            output.append(f"    Reason: {changes_summary}")
             
             elif action == ChangeAction.DELETE:
-                output.append("Resources to be Destroyed:")
+                output.append("🔥 Resources Terraform will be removing:")
                 for change in changes:
-                    output.append(f"  • {change.address} ({change.resource_type})")
-                    output.append(f"    This will permanently delete the {change.resource_type} resource.")
+                    output.append(f"  • {change.address}")
+                    output.append(f"    This {change.resource_type} will be gone for good.")
+                    if change.before:
+                        output.append(f"    Current state: {self._summarize_resource_state(change.before)}")
+                    # Add reason for deletion
+                    deletion_reason = self._explain_deletion(change)
+                    if deletion_reason:
+                        output.append(f"    Reason: {deletion_reason}")
             
             elif action == ChangeAction.NO_OP:
-                output.append("Resources with No Changes:")
+                output.append("✅ Resources staying the same:")
                 for change in changes:
-                    output.append(f"  • {change.address} ({change.resource_type})")
-                    output.append(f"    This {change.resource_type} resource will remain unchanged.")
+                    output.append(f"  • {change.address}")
+                    output.append(f"    This {change.resource_type} is perfect as-is.")
             
             output.append("")
         
-        return "\n".join(output) 
+        return "\n".join(output)
+    
+    def _explain_changes(self, before: Dict[str, Any], after: Dict[str, Any]) -> str:
+        """Explain why a resource is being changed based on before/after data."""
+        if not before or not after:
+            return "Configuration updated"
+        
+        # Find changed fields
+        changed_fields = []
+        for key in after:
+            if key not in before or before[key] != after[key]:
+                changed_fields.append(key)
+        
+        if not changed_fields:
+            return "Configuration updated"
+        
+        # Provide human-readable explanations
+        explanations = []
+        for field in changed_fields[:3]:  # Limit to first 3 changes
+            if field in ['name', 'tags', 'description']:
+                explanations.append(f"{field} updated")
+            elif field in ['size', 'capacity', 'count']:
+                explanations.append(f"{field} changed")
+            elif field in ['subnet_id', 'vpc_id', 'security_group_ids']:
+                explanations.append(f"network configuration updated")
+            else:
+                explanations.append(f"{field} modified")
+        
+        if len(changed_fields) > 3:
+            explanations.append(f"and {len(changed_fields) - 3} other changes")
+        
+        return ", ".join(explanations)
+    
+    def _summarize_changes(self, changes: Dict[str, Any]) -> str:
+        """Summarize the configuration for new resources."""
+        if not changes:
+            return "Default configuration"
+        
+        # Extract key configuration details
+        summary_parts = []
+        if 'name' in changes:
+            summary_parts.append(f"name: {changes['name']}")
+        if 'tags' in changes:
+            summary_parts.append("with tags")
+        if 'subnet_id' in changes:
+            summary_parts.append("network attached")
+        
+        if summary_parts:
+            return ", ".join(summary_parts)
+        return "Standard configuration"
+    
+    def _summarize_resource_state(self, state: Dict[str, Any]) -> str:
+        """Summarize the current state of a resource being deleted."""
+        if not state:
+            return "Resource exists"
+        
+        summary_parts = []
+        if 'name' in state:
+            summary_parts.append(f"name: {state['name']}")
+        if 'tags' in state:
+            summary_parts.append("has tags")
+        if 'subnet_id' in state:
+            summary_parts.append("network attached")
+        
+        if summary_parts:
+            return ", ".join(summary_parts)
+        return "Resource exists"
+
+    def _explain_deletion(self, change: ResourceChange) -> str:
+        """Explain why a resource is being deleted."""
+        # If this is a replacement, show which attributes are causing it
+        if change.replace and len(change.replace) > 0:
+            fields = ', '.join(change.replace)
+            return f"Changing {fields} requires resource replacement"
+        if not change.before:
+            return "Resource no longer needed"
+        
+        # Check resource name for clues
+        resource_name = change.resource_name.lower()
+        if 'old' in resource_name:
+            return "Legacy resource being replaced"
+        elif 'temp' in resource_name or 'test' in resource_name:
+            return "Temporary resource being cleaned up"
+        elif 'backup' in resource_name:
+            return "Backup resource being removed"
+        elif 'staging' in resource_name:
+            return "Staging resource being removed"
+        
+        # Check resource state for clues
+        state = change.before
+        if 'tags' in state and state.get('tags', {}).get('lifecycle') == 'temporary':
+            return "Temporary resource being cleaned up"
+        elif 'tags' in state and state.get('tags', {}).get('environment') == 'staging':
+            return "Staging environment resource being removed"
+        
+        # Check if it's an orphaned resource
+        if not state.get('tags') and not state.get('name'):
+            return "Orphaned resource being cleaned up"
+        
+        return "Resource no longer needed in configuration" 

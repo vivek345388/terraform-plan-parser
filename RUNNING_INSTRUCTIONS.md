@@ -44,19 +44,19 @@ This will show you all the different output formats including the new natural la
 ### 2. Parse the Sample Plan
 ```bash
 # Basic text output
-python -m src.main examples/sample_plan.json
+python -m src.main parse examples/sample_plan.json
 
 # Natural language output
-python -m src.main examples/sample_plan.json --output-format natural
+python -m src.main parse examples/sample_plan.json --output-format natural
 
 # Natural language with detailed information
-python -m src.main examples/sample_plan.json --output-format natural --detailed
+python -m src.main parse examples/sample_plan.json --output-format natural --detailed
 
 # Narrative format
-python -m src.main examples/sample_plan.json --output-format narrative
+python -m src.main parse examples/sample_plan.json --output-format narrative
 
 # Human format
-python -m src.main examples/sample_plan.json --output-format human
+python -m src.main parse examples/sample_plan.json --output-format human
 ```
 
 ### Short Aliases
@@ -65,12 +65,12 @@ For convenience, you can use these short aliases:
 
 ```bash
 # Short aliases for output format
-python -m src.main plan.json -f natural    # --output-format natural
-python -m src.main plan.json -fmt json     # --output-format json
+python -m src.main parse examples/sample_plan.json -f natural    # --output-format natural
+python -m src.main parse examples/sample_plan.json -fmt json     # --output-format json
 
 # Short aliases for other options
-python -m src.main plan.json -d            # --detailed
-python -m src.main plan.json -o summary.txt # --output-file summary.txt
+python -m src.main parse examples/sample_plan.json -d            # --detailed
+python -m src.main parse examples/sample_plan.json -o summary.txt # --output-file summary.txt
 ```
 
 ## 📊 Available Output Formats
@@ -79,14 +79,14 @@ The tool now supports **6 different output formats**:
 
 ### 1. Text Format (Default)
 ```bash
-python -m src.main examples/sample_plan.json
+python -m src.main parse examples/sample_plan.json
 ```
 - Standard formatted output with emojis and structure
 - Good for quick overview
 
 ### 2. Natural Language Format ⭐ NEW!
 ```bash
-python -m src.main examples/sample_plan.json --output-format natural
+python -m src.main parse examples/sample_plan.json --output-format natural
 ```
 - Human-readable descriptions of changes
 - Perfect for stakeholders and non-technical users
@@ -94,42 +94,42 @@ python -m src.main examples/sample_plan.json --output-format natural
 
 ### 3. Narrative Format ⭐ NEW!
 ```bash
-python -m src.main examples/sample_plan.json --output-format narrative
+python -m src.main parse examples/sample_plan.json --output-format narrative
 ```
 - Story-like explanations of changes (same as natural)
 - Great for presentations and reports
 
 ### 4. Human Format ⭐ NEW!
 ```bash
-python -m src.main examples/sample_plan.json --output-format human
+python -m src.main parse examples/sample_plan.json --output-format human
 ```
 - Human-readable format (same as natural)
 - Clear and direct naming
 
 ### 5. JSON Format
 ```bash
-python -m src.main examples/sample_plan.json --output-format json
+python -m src.main parse examples/sample_plan.json --output-format json
 ```
 - Machine-readable format
 - Good for automation and scripting
 
 ### 6. Table Format
 ```bash
-python -m src.main examples/sample_plan.json --output-format table
+python -m src.main parse examples/sample_plan.json --output-format table
 ```
 - Tabular representation
 - Good for reports and documentation
 
 ### 7. Rich Format
 ```bash
-python -m src.main examples/sample_plan.json --output-format rich
+python -m src.main parse examples/sample_plan.json --output-format rich
 ```
 - Enhanced terminal output with colors
 - Best for interactive use
 
 ### 8. Detailed View
 ```bash
-python -m src.main examples/sample_plan.json --detailed
+python -m src.main parse examples/sample_plan.json --detailed
 ```
 - Comprehensive breakdown of all resources
 - Works with any output format
@@ -232,13 +232,13 @@ terraform show -json plan.tfplan > plan.json
 ### 2. Parse Your Plan
 ```bash
 # Parse with natural language output
-python -m src.main plan.json --output-format natural
+python -m src.main parse plan.json --output-format natural
 
 # Parse with detailed natural language
-python -m src.main plan.json --output-format natural --detailed
+python -m src.main parse plan.json --output-format natural --detailed
 
 # Save output to file
-python -m src.main plan.json --output-format natural --output-file summary.txt
+python -m src.main parse plan.json --output-format natural --output-file summary.txt
 ```
 
 ### 3. Generate and Parse Automatically

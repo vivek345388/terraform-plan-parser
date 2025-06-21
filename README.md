@@ -36,25 +36,25 @@ pip install -e .
 
 ```bash
 # Parse a Terraform plan file
-python -m src.main plan.json
+python -m src.main parse <plan.json> [OPTIONS]
 
 # Parse with detailed output
-python -m src.main plan.json --detailed
+python -m src.main parse <plan.json> --detailed
 
 # Output to JSON format
-python -m src.main plan.json --output-format json
+python -m src.main parse <plan.json> --output-format json
 
 # Output to natural language format
-python -m src.main plan.json --output-format natural
+python -m src.main parse <plan.json> --output-format natural
 
 # Output to narrative format (alternative to natural)
-python -m src.main plan.json --output-format narrative
+python -m src.main parse <plan.json> --output-format narrative
 
 # Output to human-readable format (alternative to natural)
-python -m src.main plan.json --output-format human
+python -m src.main parse <plan.json> --output-format human
 
 # Save output to file
-python -m src.main plan.json --output-file summary.txt
+python -m src.main parse <plan.json> --output-file summary.txt
 ```
 
 ### Short Aliases
@@ -63,12 +63,12 @@ For convenience, you can use these short aliases:
 
 ```bash
 # Short aliases for output format
-python -m src.main plan.json -f natural    # --output-format natural
-python -m src.main plan.json -fmt json     # --output-format json
+python -m src.main parse <plan.json> -f natural    # --output-format natural
+python -m src.main parse <plan.json> -fmt json     # --output-format json
 
 # Short aliases for other options
-python -m src.main plan.json -d            # --detailed
-python -m src.main plan.json -o summary.txt # --output-file summary.txt
+python -m src.main parse <plan.json> -d            # --detailed
+python -m src.main parse <plan.json> -o summary.txt # --output-file summary.txt
 ```
 
 ### Generating Terraform Plan

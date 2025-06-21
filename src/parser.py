@@ -43,6 +43,7 @@ class ResourceChange:
     changes: Dict[str, Any]
     before: Optional[Dict[str, Any]] = None
     after: Optional[Dict[str, Any]] = None
+    replace: Optional[list] = None
 
 
 @dataclass
@@ -120,12 +121,20 @@ class TerraformPlanParser:
         changes = []
         
         # Navigate through the plan structure
-        resource_changes = self.plan_data.get('resource_changes', [])
+        resource_changes = [c for c in self.plan_data.get('resource_changes', []) if isinstance(c, dict)]
         
         for change in resource_changes:
+            if not isinstance(change, dict):
+                continue
             address = change.get('address', '')
-            change_type = change.get('change', {})
+            if isinstance(change, dict):
+                change_type = change.get('change', {})
+                if not isinstance(change_type, dict):
+                    change_type = {}
+            else:
+                change_type = {}
             actions = change_type.get('actions', [])
+            replace = change_type.get('replace', [])
             
             # Determine the primary action
             action = self._determine_action(actions)
@@ -145,7 +154,8 @@ class TerraformPlanParser:
                 impact_level=impact_level,
                 changes=change_type.get('after', {}),
                 before=change_type.get('before'),
-                after=change_type.get('after')
+                after=change_type.get('after'),
+                replace=replace
             )
             
             changes.append(resource_change)

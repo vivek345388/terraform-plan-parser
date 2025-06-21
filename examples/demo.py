@@ -13,7 +13,7 @@ from pathlib import Path
 # Add the src directory to the Python path
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from parser import TerraformPlanParser
+from parser import TerraformPlanParser, ChangeAction, ImpactLevel
 from formatter import PlanFormatter
 
 
@@ -89,14 +89,14 @@ def main():
             print(f"  - {change.address} ({change.action.value})")
         
         # Filter by action
-        create_changes = parser.get_changes_by_action(parser.ChangeAction.CREATE)
+        create_changes = parser.get_changes_by_action(ChangeAction.CREATE)
         print(f"• Resources to create: {len(create_changes)}")
         
-        delete_changes = parser.get_changes_by_action(parser.ChangeAction.DELETE)
+        delete_changes = parser.get_changes_by_action(ChangeAction.DELETE)
         print(f"• Resources to delete: {len(delete_changes)}")
         
         # Filter by impact
-        high_impact = parser.get_changes_by_impact(parser.ImpactLevel.HIGH)
+        high_impact = parser.get_changes_by_impact(ImpactLevel.HIGH)
         print(f"• High impact changes: {len(high_impact)}")
         
         print()
