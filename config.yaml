@@ -1,0 +1,52 @@
+# Terraform Plan Parser Configuration
+
+output:
+  # Show summary by default
+  show_summary: true
+  
+  # Show detailed information (resource-by-resource breakdown)
+  show_details: false
+  
+  # Enable colored output in terminal
+  color_output: true
+  
+  # Maximum line length for text output
+  max_line_length: 80
+  
+  # Default output format: text, json, table, rich
+  default_format: "text"
+
+filters:
+  # Resource types to exclude from analysis
+  exclude_resource_types: []
+  
+  # Resource types to include (empty = all)
+  include_resource_types: []
+  
+  # Minimum impact level to show: low, medium, high
+  min_impact_level: "low"
+  
+  # Actions to include: create, update, delete, no-op, read
+  include_actions: ["create", "update", "delete"]
+
+display:
+  # Show emojis in output
+  use_emojis: true
+  
+  # Show resource addresses in detailed view
+  show_addresses: true
+  
+  # Show impact levels
+  show_impact: true
+  
+  # Group resources by type
+  group_by_type: true
+  
+  # Sort resources by action priority
+  sort_by_action: true
+
+# Logging configuration
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: null  # Set to file path to enable file logging 
