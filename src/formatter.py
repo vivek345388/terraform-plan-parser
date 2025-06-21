@@ -14,7 +14,7 @@ from rich.text import Text
 from rich import box
 from tabulate import tabulate
 
-from .parser import PlanSummary, ResourceChange, ChangeAction, ImpactLevel
+from parser import PlanSummary, ResourceChange, ChangeAction, ImpactLevel
 
 
 class PlanFormatter:

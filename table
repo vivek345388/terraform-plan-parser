@@ -1,0 +1,19 @@
+📋 Terraform Plan Summary
+========================================
+
+🔍 Overview:
+  • Total Resources: 4
+  • To Create: 2
+  • To Update: 1
+  • To Delete: 1
+  • No Changes: 0
+
+📊 Resource Breakdown:
+  • aws_instance: 2 resources (1 create, 1 delete)
+  • aws_security_group: 1 resources (1 create)
+  • aws_subnet: 1 resources (1 update)
+
+⚠️  Potential Impact:
+  • High Impact: 1 resources (deletions/replacements)
+  • Medium Impact: 1 resources (updates)
+  • Low Impact: 2 resources (creations)
